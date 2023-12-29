@@ -4,7 +4,7 @@ import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 
 export const LoginCard=()=> {
-    return <Card className="pl-10 pr-10 pb-10 pt-5 text-white bg-transparent backdrop-blur-xl min-w-[450px]  border-none shadow-[0_0_1.5px_0_white]">
+    return <Card className="pl-5 pr-5 pb-10 pt-5 text-white bg-transparent backdrop-blur-xl w-full  sm:max-w-[400px]  border-none shadow-[0_0_1.5px_0_white]">
         <CardHeader className={"mb-4"}>
             <CardTitle>Signup/Login</CardTitle>
         </CardHeader>
