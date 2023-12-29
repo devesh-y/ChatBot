@@ -1,7 +1,8 @@
 import {LoginCard} from "@/pages/LoginPage/LoginCard.tsx";
-import backgroundImage from "../../../public/background.png"
-import IntroImage from "../../../public/goodspaceIntro.png"
-import logo from "../../../public/goodspaceLogo.png"
+import backgroundImage from "../../assets/background.png"
+import IntroImage from "../../assets/goodspaceIntro.png"
+import logo from "../../assets/goodspaceLogo.png"
+import {Toaster} from "@/components/ui/sonner.tsx";
 export const LoginPage=()=>{
     return <div className={"h-screen w-screen bg-cover flex flex-col bg-fixed overflow-auto" } style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div className={"pl-20 pt-5 pb-5 bg-transparent backdrop-blur-sm"}><img alt={"logo"} src={logo} width={200} height={200}/></div>
@@ -11,6 +12,6 @@ export const LoginPage=()=>{
                 <LoginCard/>
             </div>
         </div>
-
+    <Toaster/>
     </div>
 }

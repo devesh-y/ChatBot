@@ -5,3 +5,4 @@ export function hashString(input:string) {
     hash.update(input);
     return hash.digest('hex');
 }
+
