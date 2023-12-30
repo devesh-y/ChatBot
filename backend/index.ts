@@ -1,8 +1,9 @@
-import {createUser, dbInstance, findUser} from "./db/dbUtilities";
+import {createUser, findUser} from "./db/dbUtilities";
 import express from "express"
 import http from "http"
 import {Server} from "socket.io";
 import cors from "cors"
+import {generateCookie} from "./utilities/generateCookie";
 const app=express();
 app.use(cors({
     origin: [`${process.env.WEBSITE}`],
@@ -20,8 +21,9 @@ app.post("/login",async (req,res)=>{
     try{
         const user=await findUser(email)
         if(!user){
-            createUser(email,password).save().then(()=>{
-                res.status(200).send(JSON.stringify({message:"Account Created Successfully"}))
+            const cookie=generateCookie();
+            createUser(email,password,cookie).save().then(()=>{
+                res.status(200).send(JSON.stringify({message:"Account Created Successfully",cookie}))
             }).catch(()=>{
                 res.status(500).send(JSON.stringify({error:"Internal Server Error"}))
             });
@@ -30,7 +32,10 @@ app.post("/login",async (req,res)=>{
             res.status(401).send(JSON.stringify({error:"Invalid Credentials"}))
         }
         else{
-            res.status(200).send(JSON.stringify({message:"Login Successfully"}))
+            const cookie=generateCookie();
+            user.cookie=cookie;
+            await user.save();
+            res.status(200).send(JSON.stringify({message:"Login Successfully",cookie}))
         }
     }catch (err) {
         console.log(err)

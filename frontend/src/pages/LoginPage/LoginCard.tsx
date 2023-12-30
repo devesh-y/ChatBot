@@ -5,8 +5,11 @@ import {Button} from "@/components/ui/button.tsx";
 import {useCallback, useState} from "react";
 import {toast} from "sonner";
 import {HandleLogin} from "@/pages/LoginPage/HandleLogin.ts";
+import {setCookie} from "@/utilities/getSetCookie.ts";
+import {useNavigate} from "react-router-dom";
 
 export const LoginCard=()=> {
+    const navigate=useNavigate();
     const [userInfo,setUserInfo]=useState({email:"",password:""});
     const loginFunc=useCallback(()=>{
         if(userInfo.email=="" || userInfo.password==""){
@@ -19,8 +22,23 @@ export const LoginCard=()=> {
         }
         else{
             HandleLogin(userInfo).then((res)=>{
-                console.log(res);
+                const {error,cookie,message}= res as {error?:string,message?:string,cookie?:string};
+                if(error){
+                    console.log(error)
+                    toast(error, {
+                        action: {
+                            label: "Close",
+                            onClick: () => console.log("close"),
+                        },
+                    })
+                }
+                else{
+                    console.log(message)
+                    setCookie(userInfo.email,cookie!)
+                    navigate("/chat",{replace:true})
+                }
             }).catch(()=>{
+
                 toast("Bad Request", {
                     action: {
                         label: "Close",
@@ -31,7 +49,7 @@ export const LoginCard=()=> {
         }
 
         
-    },[userInfo])
+    },[navigate, userInfo])
     return <Card className="pl-5 pr-5 pb-10 pt-5 text-white bg-transparent backdrop-blur-xl w-full  sm:max-w-[400px]  border-none shadow-[0_0_1.5px_0_white]">
         <CardHeader className={"mb-4"}>
             <CardTitle>Signup/Login</CardTitle>
@@ -41,11 +59,11 @@ export const LoginCard=()=> {
                 <div className="grid w-full items-center gap-4">
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="email">Your Email id</Label>
-                        <Input className={"text-black focus-visible:ring-0 focus-visible:ring-offset-0 "} id="email" placeholder="Enter your Email Address" value={userInfo.email} onChange={(e)=>setUserInfo({email:e.target.value,password:userInfo.password})} />
+                        <Input autoComplete={"true"} className={"text-black focus-visible:ring-0 focus-visible:ring-offset-0 "} id="email" placeholder="Enter your Email Address" value={userInfo.email} onChange={(e)=>setUserInfo({email:e.target.value,password:userInfo.password})} />
                     </div>
                     <div className="flex flex-col space-y-1.5">
                         <Label htmlFor="password">Password</Label>
-                        <Input className={"text-black focus-visible:ring-0 focus-visible:ring-offset-0"}  type={"password"} id="password" placeholder="Enter your Password" value={userInfo.password} onChange={(e)=>setUserInfo({email:userInfo.email,password:e.target.value})} />
+                        <Input autoComplete={"true"} className={"text-black focus-visible:ring-0 focus-visible:ring-offset-0"}  type={"password"} id="password" placeholder="Enter your Password" value={userInfo.password} onChange={(e)=>setUserInfo({email:userInfo.email,password:e.target.value})} />
                     </div>
                 </div>
             </form>
