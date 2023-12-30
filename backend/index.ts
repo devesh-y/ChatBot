@@ -1,4 +1,4 @@
-import {createUser, findUser} from "./db/dbUtilities";
+import {createUser, findUser} from "./utilities/dbUtilities";
 import express from "express"
 import http from "http"
 import {Server} from "socket.io";
