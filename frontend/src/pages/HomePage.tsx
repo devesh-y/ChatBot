@@ -16,7 +16,7 @@ export const HomePage=()=>{
         }
     }, [navigate]);
     return <div className={"h-screen w-screen bg-cover flex flex-col bg-fixed overflow-auto" } style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div className={"pl-20 pt-5 pb-5 bg-transparent backdrop-blur-sm"}><img alt={"logo"} src={logo} width={200} height={200}/></div>
+        <div className={"pl-20 pt-2 pb-2 bg-transparent backdrop-blur-sm"}><img alt={"logo"} src={logo} width={200} height={200}/></div>
         <Outlet/>
         <Toaster/>
     </div>
