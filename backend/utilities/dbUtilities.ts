@@ -1,7 +1,7 @@
 import {Mongoose, Schema} from "mongoose";
 
-// const mongoUserDbUrl=`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@users.cpu4cek.mongodb.net/${process.env.USER_DB}?retryWrites=true&w=majority`
-const mongoUserDbUrl=`mongodb://localhost:27017/${process.env.USER_DB}`
+const mongoUserDbUrl=`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@users.cpu4cek.mongodb.net/${process.env.USER_DB}?retryWrites=true&w=majority`
+// const mongoUserDbUrl=`mongodb://localhost:27017/${process.env.USER_DB}`
 export const dbInstance=new Mongoose();
 dbInstance.connect(mongoUserDbUrl).then(()=>{
     console.log("connected to DB")
@@ -16,7 +16,10 @@ const userSchema=new Schema({
 
 const conversationSchema=new Schema({
     email:String,
-    chats:[{from:String,message:String}]
+    chats: {
+        type: [{ from: String, message: String }],
+        default: []
+    }
 })
 
 const userModel=dbInstance.model("userCredentials",userSchema,'userCredentials');
@@ -24,3 +27,6 @@ const conversationModel=dbInstance.model("conversations",conversationSchema);
 
 export const findUser=(email:string)=>userModel.findOne({email});
 export const createUser=(email:string,password:string,cookie:string)=>new userModel({email,password,cookie});
+
+export const findCoversation=(email:string)=>conversationModel.findOne({email});
+export const createConversation=(email:string)=>new conversationModel({email,chats:[]});

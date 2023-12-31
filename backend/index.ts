@@ -1,14 +1,18 @@
-import {createUser, findUser} from "./utilities/dbUtilities";
+import {createConversation, createUser, findCoversation, findUser} from "./utilities/dbUtilities";
 import express from "express"
 import http from "http"
 import {Server} from "socket.io";
 import cors from "cors"
+import {OpenAI} from "openai"
 import {generateCookie} from "./utilities/generateCookie";
 const app=express();
 app.use(cors({
     origin: [`${process.env.WEBSITE}`],
     methods:['GET','POST']
 }))
+const openai=new OpenAI({
+    apiKey:process.env.API_KEY
+})
 const httpServer=http.createServer(app);
 const io=new Server(httpServer,{
     cors: {
@@ -43,14 +47,60 @@ app.post("/login",async (req,res)=>{
     }
 
 })
+app.post("/getChats",async (req,res)=>{
+    const {email}=req.body;
+    try{
+        let user=await findCoversation(email);
+        if(!user){
+            user=await createConversation(email).save();
+            res.status(200).send(JSON.stringify([]));
+        }
+        if(user){
+            res.status(200).send(JSON.stringify({chats:user.chats}));
+        }
+    }
+    catch (err){
+        console.log(err)
+        res.status(500).send(JSON.stringify({error:"Internal Server Error"}))
+    }
+
+
+})
 httpServer.listen(process.env.PORT,()=>{
     console.log(`server is listening on`,process.env.PORT)
 })
 
-io.on("connection",(socket)=>{
-    socket.on("chat",(message:string,conversation_id:string,from:string, to:string)=>{
+io.on("connection", (socket)=>{
+    socket.on("chat",async ({email, message}:{email:string,message:string})=>{
         //store in db
-        socket.to(to).emit(message);
+        let user=await findCoversation(email);
+        if(!user){
+            user=await createConversation(email).save();
+        }
+        if(user){
+            user.chats.push({from:"Me",message});
+            const promise1=user.save();
+            const promise2=openai.chat.completions.create({
+                "model": "gpt-3.5-turbo",
+                "messages": [
+                    {"role": "user", "content": message}
+                ]
+            })
+            Promise.all([promise1,promise2]).then((response)=>{
+                const answer=response[1].choices[0].message.content;
+                socket.emit("chat",{answer});
+                if(user){
+                    user.chats.push({from:"AI",message:answer})
+                    user.save().catch(()=>{
+                        console.log("error in storing message of gpt")
+                    });
+                }
+            }).catch(()=>{
+                socket.emit("chat",{error:"Server Error. Try Again"});
+            })
+
+        }
+
+
     })
 })
-
