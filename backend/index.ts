@@ -54,6 +54,7 @@ app.post("/getChats",async (req,res)=>{
         if(!user){
             user=await createConversation(email).save();
             res.status(200).send(JSON.stringify([]));
+            return;
         }
         if(user){
             res.status(200).send(JSON.stringify({chats:user.chats}));
