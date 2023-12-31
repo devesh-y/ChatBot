@@ -7,10 +7,11 @@ import {toast} from "sonner";
 import {HandleLogin} from "@/pages/LoginPage/HandleLogin.ts";
 import {setCookie} from "@/utilities/getSetCookie.ts";
 import {useNavigate} from "react-router-dom";
-
+import {Loader2} from "lucide-react"
 export const LoginCard=()=> {
     const navigate=useNavigate();
     const [userInfo,setUserInfo]=useState({email:"",password:""});
+    const [loading,setLoading]=useState(false);
     const loginFunc=useCallback(()=>{
         if(userInfo.email=="" || userInfo.password==""){
             toast("Enter Credentials", {
@@ -21,9 +22,11 @@ export const LoginCard=()=> {
             })
         }
         else{
+            setLoading(true);
             HandleLogin(userInfo).then((res)=>{
                 const {error,cookie,message}= res as {error?:string,message?:string,cookie?:string};
                 if(error){
+
                     console.log(error)
                     toast(error, {
                         action: {
@@ -37,8 +40,9 @@ export const LoginCard=()=> {
                     setCookie(userInfo.email,cookie!)
                     navigate("/chat",{replace:true})
                 }
+                setLoading(false);
             }).catch(()=>{
-
+                setLoading(false);
                 toast("Bad Request", {
                     action: {
                         label: "Close",
@@ -69,7 +73,7 @@ export const LoginCard=()=> {
             </form>
         </CardContent>
         <CardFooter className="flex justify-center">
-            <Button className={"w-full bg-blue-600 hover:bg-blue-700"} variant={"default"} onClick={loginFunc}>Lets Go!!</Button>
+            <Button className={"w-full bg-blue-600 hover:bg-blue-700"} variant={"default"} onClick={loginFunc}>{loading?<Loader2 className={"animate-spin"}/>:"Lets Go!!"}</Button>
         </CardFooter>
     </Card>
 }
