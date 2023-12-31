@@ -7,7 +7,7 @@ import {StreamContext} from "@/pages/ChatPage/StreamContextComp.tsx";
 import {toast} from "sonner";
 import SpeechRecognition from "react-speech-recognition";
 
-export const SecondPanel=({setFirstPanel,firstPanel,setMic,chats,setChats}:{setFirstPanel: React.Dispatch<React.SetStateAction<string>>,firstPanel:string,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[],setChats:React.Dispatch<React.SetStateAction<{from: string, message: string}[]>>})=>{
+export const SecondPanel=({setFirstPanel,firstPanel,setMic,chats}:{setFirstPanel: React.Dispatch<React.SetStateAction<string>>,firstPanel:string,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[]})=>{
     const {stream,setStream}=useContext(StreamContext) as {stream:MediaStream|null,setStream:React.Dispatch<React.SetStateAction<MediaStream | null>>};
     const playPauseVideo=useCallback(async ()=>{
         if(stream){

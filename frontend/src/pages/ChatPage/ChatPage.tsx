@@ -83,7 +83,7 @@ export const ChatPage=()=>{
         <div className={"w-2/3 max-xl:w-full"}>
             <StreamContextComp>
                 <FirstPanel firstPanel={firstPanel} mic={mic} setMic={setMic} chats={chats} setChats={setChats} email={email}/>
-                <SecondPanel setFirstPanel={setFirstPanel} firstPanel={firstPanel} setMic={setMic} chats={chats} setChats={setChats}/>
+                <SecondPanel setFirstPanel={setFirstPanel} firstPanel={firstPanel} setMic={setMic} chats={chats} />
             </StreamContextComp>
 
         </div>
