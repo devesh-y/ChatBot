@@ -1,10 +1,12 @@
-import {createConversation, createUser, findCoversation, findUser} from "./utilities/dbUtilities";
 import express from "express"
+import {config} from "dotenv"
 import http from "http"
 import {Server} from "socket.io";
 import cors from "cors"
 import {OpenAI} from "openai"
+config();
 import {generateCookie} from "./utilities/generateCookie";
+import {createConversation, createUser, findCoversation, findUser} from "./utilities/dbUtilities";
 const app=express();
 app.use(cors({
     origin: [`${process.env.WEBSITE}`],
