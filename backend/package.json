@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "npm run start"
+    "start": "node --env-file=.env dist/index.js"
   },
   "author": "",
   "license": "ISC",
