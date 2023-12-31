@@ -18,7 +18,8 @@ const openai=new OpenAI({
 const httpServer=http.createServer(app);
 const io=new Server(httpServer,{
     cors: {
-        origin: [`${process.env.WEBSITE}`],
+        origin: `${process.env.WEBSITE}`,
+        methods: ["GET", "POST"]
     }
 })
 app.use(express.json());
@@ -54,7 +55,7 @@ app.post("/getChats",async (req,res)=>{
     try{
         let user=await findCoversation(email);
         if(!user){
-            user=await createConversation(email).save();
+            await createConversation(email).save();
             res.status(200).send(JSON.stringify([]));
             return;
         }
