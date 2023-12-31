@@ -9,7 +9,7 @@ export const ChatsComp=({chats}:{chats:{from: string, message: string}[]})=>{
             scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
         }
     }, [chats]);
-    return <div ref={scrollRef} className={"flex-grow flex flex-col h-full overflow-auto"}>
+    return <div ref={scrollRef} className={"flex-grow flex flex-col h-full overflow-auto pr-2"}>
             {chats.map((value,index)=>{
                 if(value.from==="AI") {
                     return <div key={index} className={"self-start w-fit max-w-[70%] "}>
