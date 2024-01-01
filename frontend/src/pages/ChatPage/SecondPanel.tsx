@@ -1,13 +1,13 @@
 import {MessageSquare, Pause, Play} from "lucide-react";
 import {ChatsComp} from "@/pages/ChatPage/ChatsComp.tsx";
-import React, {useCallback, useContext} from "react";
+import React, {useCallback, useContext,memo} from "react";
 import {Video} from "lucide-react"
 import {VideoComp} from "@/pages/ChatPage/VideoComp.tsx";
 import {StreamContext} from "@/pages/ChatPage/StreamContextComp.tsx";
 import {toast} from "sonner";
 import SpeechRecognition from "react-speech-recognition";
 
-export const SecondPanel=({setFirstPanel,firstPanel,setMic,chats}:{setFirstPanel: React.Dispatch<React.SetStateAction<string>>,firstPanel:string,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[]})=>{
+export const SecondPanel=memo(({setFirstPanel,firstPanel,setMic,chats}:{setFirstPanel: React.Dispatch<React.SetStateAction<string>>,firstPanel:string,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[]})=>{
     const {stream,setStream}=useContext(StreamContext) as {stream:MediaStream|null,setStream:React.Dispatch<React.SetStateAction<MediaStream | null>>};
     const playPauseVideo=useCallback(async ()=>{
         if(stream){
@@ -43,7 +43,7 @@ export const SecondPanel=({setFirstPanel,firstPanel,setMic,chats}:{setFirstPanel
             <div className={"flex-grow h-full bg-transparent backdrop-blur-md rounded-[40px] flex items-center justify-between gap-2 max-xl:w-full max-xl:h-[250px] pl-8 "}>
                 {firstPanel==="Video"?<ChatsComp chats={chats} />:<VideoComp/>}
 
-                <div className={"min-w-[200px] max-w-[200px] max-md:min-w-20 max-md:max-w-20  h-full flex justify-center items-center flex-col gap-4"} >
+                <div className={"md:min-w-[200px] md:max-w-[200px] max-sm:w-10 sm:max-md:max-w-20 sm:max-md:min-w-20  h-full flex justify-center items-center flex-col gap-4"} >
                     <div className={"bg-[#2867ad] rounded-full w-1/3 max-md:w-2/3 aspect-square flex justify-center items-center  shadow-[0_0_2px_15px_#61525c] "} onClick={()=>{
                         setFirstPanel(firstPanel==='Video'?"Chat":"Video")
                         setMic(false)
@@ -68,4 +68,4 @@ export const SecondPanel=({setFirstPanel,firstPanel,setMic,chats}:{setFirstPanel
             </div>
         </div>
 
-}
+})

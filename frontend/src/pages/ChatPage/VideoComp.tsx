@@ -1,11 +1,11 @@
-import React, {useCallback, useContext} from "react";
+import React, {memo, useCallback, useContext} from "react";
 import ReactPlayer from "react-player";
 import {Button} from "@/components/ui/button.tsx";
 import cameraBackgroud from "../../assets/cameraImage.png"
 import {toast} from "sonner";
 import {StreamContext} from "@/pages/ChatPage/StreamContextComp.tsx";
 
-export const VideoComp=()=>{
+export const VideoComp=memo(()=>{
     const {stream,setStream}=useContext(StreamContext) as {stream:MediaStream|null,setStream:React.Dispatch<React.SetStateAction<MediaStream | null>>};
 
     const turnVideo=useCallback(async ()=>{
@@ -42,4 +42,4 @@ export const VideoComp=()=>{
         }
 
     </>
-}
+})

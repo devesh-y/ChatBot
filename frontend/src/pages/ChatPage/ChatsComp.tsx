@@ -1,8 +1,8 @@
 
-import {useEffect, useRef} from "react";
+import {useEffect, useRef,memo} from "react";
 
 
-export const ChatsComp=({chats}:{chats:{from: string, message: string}[]})=>{
+export const ChatsComp=memo(({chats}:{chats:{from: string, message: string}[]})=>{
     const scrollRef=useRef<HTMLDivElement>(null);
     useEffect(() => {
         if(scrollRef.current){
@@ -31,4 +31,4 @@ export const ChatsComp=({chats}:{chats:{from: string, message: string}[]})=>{
 
 
 
-}
+})

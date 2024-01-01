@@ -79,7 +79,7 @@ export const ChatPage=()=>{
         }
 
     },[email])
-    return <div className={"flex-grow flex max-xl:justify-center ml-5 mr-5"}>
+    return <div className={"flex-grow flex max-xl:justify-center ml-5 mr-5 max-sm:ml-1 max-sm:mr-1"}>
         <div className={"w-2/3 max-xl:w-full"}>
             <StreamContextComp>
                 <FirstPanel firstPanel={firstPanel} mic={mic} setMic={setMic} chats={chats} setChats={setChats} email={email}/>

@@ -5,12 +5,12 @@ import {Paperclip,SendHorizonal,Mic,MicOff} from "lucide-react"
 import {Button} from "@/components/ui/button.tsx";
 import 'regenerator-runtime/runtime'
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState,memo} from "react";
 import {toast} from "sonner";
 import {socket} from "@/utilities/SocketConnection.ts";
 
-export const FirstPanel=({firstPanel,setMic,mic,chats,setChats,email}:{firstPanel:string,mic:boolean,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[],setChats:React.Dispatch<React.SetStateAction<{from: string, message: string}[]>>,email:string})=>{
-    
+export const FirstPanel=memo(({firstPanel,setMic,mic,chats,setChats,email}:{firstPanel:string,mic:boolean,setMic: React.Dispatch<React.SetStateAction<boolean>>,chats:{from: string, message: string}[],setChats:React.Dispatch<React.SetStateAction<{from: string, message: string}[]>>,email:string})=>{
+
     const { browserSupportsSpeechRecognition,transcript,resetTranscript} = useSpeechRecognition();
     const [chatInput,setChatInput]=useState("");
     const [accessAudio,setAccessAudio]=useState<null|MediaStream>(null);
@@ -82,16 +82,16 @@ export const FirstPanel=({firstPanel,setMic,mic,chats,setChats,email}:{firstPane
             <div className={"bg-transparent backdrop-blur-md w-full h-[300px] rounded-[40px] mb-5 flex gap-5 items-center justify-between pl-8 pr-8"}>
                 <VideoComp/>
                 <div className={"flex justify-between items-center gap-8 h-full"}>
-                    <div className={"flex justify-center items-center flex-col gap-4 w-20"}>
+                    <div className={"flex justify-center items-center flex-col gap-4 w-20 max-sm:w-9"}>
                         <div
                             className={"bg-[#2867ad] rounded-full w-2/3 aspect-square flex justify-center items-center  shadow-[0_0_2px_15px_#61525c] "} onClick={turnMicOnOff}>
                             {mic?<Mic color={"white"} size={30}/>:<MicOff color={"white"} size={30}/>}
                         </div>
                         <div className={"text-white font-bold"}>{mic?"Stop":"Ask"} </div>
                     </div>
-                    <div className={"flex justify-center items-center flex-col gap-4 h-full w-8"}>
+                    <div className={"flex justify-center items-center flex-col gap-4 h-full w-8 max-sm:w-4"}>
                         <div
-                            className={" w-[150px] h-[60px] bg-black flex justify-center items-center origin-center -rotate-90 rounded-lg gap-1"}>
+                            className={" w-[150px] h-[60px] max-sm:h-[40px] bg-black flex justify-center items-center origin-center -rotate-90 rounded-lg gap-1"}>
                             <Volume2 color={"white"}/>
                             <input type="range" min="0" max="100" step="0.5"
                                    className={"w-2/3 accent-amber-50"}/>
@@ -102,7 +102,7 @@ export const FirstPanel=({firstPanel,setMic,mic,chats,setChats,email}:{firstPane
             </div>:
             <div className={"bg-transparent backdrop-blur-md w-full h-[300px] rounded-[40px] mb-5 flex flex-col gap-5  pl-8 pr-8"}>
                 <ChatsComp chats={chats}/>
-                <div className={"flex gap-4 items-center justify-between pl-3 pr-3 pt-1 pb-1 rounded-md"} style={{backgroundColor:"rgb(250,250,250,0.4)"}}>
+                <div className={"flex gap-4 items-center justify-between pl-3 pr-3 pt-1 pb-1 rounded-md overflow-hidden"} style={{backgroundColor:"rgb(250,250,250,0.4)"}}>
                     <input type={"text"} placeholder="Type message" className={"bg-transparent outline-none placeholder:text-black flex-grow"} value={chatInput} onChange={(e)=>setChatInput(e.target.value)} onKeyDown={(event) => {
                         if (event.key === "Enter") {
                             sendQuestion(chatInput);
@@ -121,4 +121,4 @@ export const FirstPanel=({firstPanel,setMic,mic,chats,setChats,email}:{firstPane
         }
     </>
 
-}
+})
