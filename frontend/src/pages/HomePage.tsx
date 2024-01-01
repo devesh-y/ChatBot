@@ -25,7 +25,7 @@ export const HomePage=()=>{
         }
     }, [navigate]);
     return <>
-        {loading ? <div className={"h-svh w-screen flex justify-center items-center"}>
+        {loading ? <div className={"h-[100svh] w-screen flex justify-center items-center"}>
                 <Loader2 size={40} color={"black"} className={"animate-spin"}/>
             </div> :
             <div className={"h-screen w-screen bg-cover flex flex-col bg-fixed overflow-auto"}
