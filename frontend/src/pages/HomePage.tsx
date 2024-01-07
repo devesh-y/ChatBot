@@ -15,7 +15,7 @@ export const HomePage=()=>{
         }
     }, [navigate]);
     return <div className={"h-svh bg-cover"}
-             style={{backgroundImage: `url(${backgroundImage})`}}>
+             style={{background: `url(${backgroundImage})`}}>
             <Outlet/>
             <Toaster/>
         </div>
