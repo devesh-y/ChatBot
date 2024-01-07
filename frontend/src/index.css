@@ -74,7 +74,8 @@
     @apply bg-background text-foreground;
   }
 }
-::-webkit-scrollbar {
+::-webkit-scrollbar{
+  height: 8px;
   width: 8px;
 }
 
