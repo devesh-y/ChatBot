@@ -1,4 +1,4 @@
-import backgroundImage from "../assets/background.svg"
+import backgroundImage from "../assets/backGroundImage.svg"
 import {Toaster} from "@/components/ui/sonner.tsx";
 import {useEffect} from "react";
 import {getCookie} from "@/utilities/getSetCookie.ts";
